@@ -1,0 +1,30 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro'
+import Footer from '../components/Footer.astro';
+import { siteConfig } from "../consts.ts";
+
+interface Props {
+		title?: string;
+		description?: string;
+		image?: string;
+}
+
+const { title = "", description = siteConfig.description, image } = Astro.props;
+
+---
+<!doctype html>
+<html lang="en" class="dark">
+	<head>
+		<BaseHead title={title} description={description} image={image} />
+	</head>
+	<body>
+		<Header/>
+		<main>
+			<section class="cody-bg">
+				<slot/>
+			</section>
+		</main>
+		<Footer/>
+	</body>
+</html
