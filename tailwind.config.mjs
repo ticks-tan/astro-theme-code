@@ -1,10 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-	content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
+	content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
 	darkMode: "class",
 	theme: {
 		fontFamily: {
-			'mono': ['Space Mono', 'monospace']
+			mono: ["Space Mono", "Noto Sans SC", "monospace"],
 		},
 		extend: {
 			colors: {
@@ -15,11 +15,9 @@ export default {
 				"accent-2": "var(--theme-accent-2)",
 				surface: "var(--theme-surface)",
 				quote: "var(--theme-quote)",
-				highlight: "var(--theme-highlight)"
+				highlight: "var(--theme-highlight)",
 			},
-		}
+		},
 	},
-	plugins: [
-		require('@tailwindcss/typography'),
-	],
-}
+	plugins: [require("@tailwindcss/typography")],
+};
