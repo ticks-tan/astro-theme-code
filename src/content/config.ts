@@ -39,7 +39,9 @@ const blog = defineCollection({
 		// for pinning posts
 		order: z.number().min(1).max(5).optional(),
 		// hide a post from pagination
-		hide: z.boolean().optional().default(false)
+		hide: z.boolean().optional().default(false),
+		// katex enable
+		katex: z.boolean().optional().default(false)
 	}),
 });
 

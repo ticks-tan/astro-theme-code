@@ -2,12 +2,10 @@
 import type { CollectionEntry } from "astro:content";
 import Layout from "../layouts/Sidebar.astro";
 import FormattedDate from "../components/FormattedDate.astro";
-import SocialMediaLinks from "@/components/SocialMediaLinks";
 import TOC from "@/components/TableOfContents";
 import BackToTopBtn from "@/components/BackToTopBtn";
 import CopyBtn from "@/components/CopyBtn";
 import { Icon } from "astro-icon";
-import { siteConfig } from "../consts";
 
 interface Props {
 	post: CollectionEntry<"blog">;
@@ -27,6 +25,7 @@ const {
 		tags,
 		series,
 		draft,
+		katex,
 	},
 } = post;
 
@@ -49,6 +48,7 @@ const articleDate = updatedDate?.toISOString() ?? pubDate.toISOString();
 	description={description}
 	image={socialImage}
 	articleDate={articleDate}
+	katex={katex}
 >
 	<article
 		class="cody-bg prose dark:prose-invert prose-cody text-textColor max-w-4xl"
