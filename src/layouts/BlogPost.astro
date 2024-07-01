@@ -4,7 +4,7 @@ import Layout from "../layouts/Sidebar.astro";
 import FormattedDate from "../components/FormattedDate.astro";
 import TOC from "@/components/TableOfContents";
 import BackToTopBtn from "@/components/BackToTopBtn";
-import CopyBtn from "@/components/CopyBtn";
+// import CopyBtn from "@/components/CopyBtn";
 import { Icon } from "astro-icon";
 
 interface Props {
@@ -154,4 +154,4 @@ const articleDate = updatedDate?.toISOString() ?? pubDate.toISOString();
 	</aside>
 </Layout>
 
-<CopyBtn />
+<!-- <CopyBtn /> -->

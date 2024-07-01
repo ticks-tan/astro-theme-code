@@ -64,6 +64,32 @@ The blockquote element represents content that is quoted from another source, op
 > Tiam, ad mint andaepu dandae nostion secatur sequo quae.  
 > **Note** that you can use _Markdown syntax_ within a blockquote.
 
+### CodeBlock with title
+
+```cpp title="main.cc" {5}
+#include <print>
+
+int main()
+{
+	std::println("Hello {}", "world");
+	return 0;
+}
+```
+
+### Terminal
+
+```bash
+git init
+git status
+```
+
+### Terminal with title
+
+```bash title="Bash"
+git init
+git status
+```
+
 ### Blockquote with attribution
 
 #### Syntax

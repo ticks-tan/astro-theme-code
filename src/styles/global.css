@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 @layer base {
-	:root {
+	:root,
+	:root[data-theme="light"] {
 		color-scheme: light;
 		/* https://tailwindcss.com/docs/customizing-colors#using-css-variables */
 		--theme-bg: #efefef;
@@ -15,7 +16,7 @@
 		--theme-highlight: #dd7878;
 	}
 
-	:root.dark {
+	:root[data-theme="dark"] {
 		color-scheme: dark;
 		--theme-bg: #1d1d1d;
 		--theme-text: #ededed;
@@ -67,6 +68,12 @@
 			:where([class~="not-prose"], [class~="not-prose"] *)
 		)::after {
 		content: none !important;
+	}
+	pre.astro-code {
+		@apply !bg-surface;
+	}
+	div:has(> pre.astro-code) {
+		@apply border-accent border-2;
 	}
 
 	.prose-cody hr {

@@ -35,10 +35,8 @@
 -   Auto-generated [sitemap](https://docs.astro.build/en/guides/integrations-guide/sitemap/)
 -   [Astro Icon](https://github.com/natemoo-re/astro-icon) svg icon component
 -   Back To Top button
-
----
-
 -   [Katex](https://katex.org/) support
+-   Toc highlight support
 
 ## Demo
 
