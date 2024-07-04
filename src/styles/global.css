@@ -11,18 +11,18 @@
 		--theme-text: #222222;
 		--theme-accent: #61649f;
 		--theme-accent-2: #74759b;
-		--theme-surface: #eef7f2;
+		--theme-surface: #e6e6e6;
 		--theme-quote: #61649f;
 		--theme-highlight: #61649f;
 	}
 
 	:root[data-theme="dark"] {
 		color-scheme: dark;
-		--theme-bg: #141e1b;
+		--theme-bg: #1d1d1d;
 		--theme-text: #f1f0ed;
 		--theme-accent: #2c9678;
 		--theme-accent-2: #545454;
-		--theme-surface: #23251e;
+		--theme-surface: #2f2f2f;
 		--theme-quote: #2c9678;
 		--theme-highlight: #2c9678;
 	}
