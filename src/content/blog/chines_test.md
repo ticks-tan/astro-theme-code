@@ -2,6 +2,7 @@
 title: "中文测试"
 description: "这是一篇简短的中文文章测试，内容由 ChatGPT 生成。"
 pubDate: "2024-06-29"
+updatedDate: "2024-07-04"
 tags: ["chinese", "test"]
 series: "example"
 ---

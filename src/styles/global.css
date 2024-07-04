@@ -7,24 +7,24 @@
 	:root[data-theme="light"] {
 		color-scheme: light;
 		/* https://tailwindcss.com/docs/customizing-colors#using-css-variables */
-		--theme-bg: #efefef;
+		--theme-bg: #fffef9;
 		--theme-text: #222222;
-		--theme-accent: #dd7878;
-		--theme-accent-2: #bcc0cd;
-		--theme-surface: #e6e6e6;
-		--theme-quote: #dd7878;
-		--theme-highlight: #dd7878;
+		--theme-accent: #61649f;
+		--theme-accent-2: #74759b;
+		--theme-surface: #eef7f2;
+		--theme-quote: #61649f;
+		--theme-highlight: #61649f;
 	}
 
 	:root[data-theme="dark"] {
 		color-scheme: dark;
-		--theme-bg: #1d1d1d;
-		--theme-text: #ededed;
-		--theme-accent: #93e1d4;
+		--theme-bg: #141e1b;
+		--theme-text: #f1f0ed;
+		--theme-accent: #2c9678;
 		--theme-accent-2: #545454;
-		--theme-surface: #2f2f2f;
-		--theme-quote: #93e1d4;
-		--theme-highlight: #93e1d4;
+		--theme-surface: #23251e;
+		--theme-quote: #2c9678;
+		--theme-highlight: #2c9678;
 	}
 
 	html {
@@ -38,6 +38,10 @@
 	/*
   * CSS for markdown and MDX blog posts
   */
+
+	.prose-cody {
+		word-wrap: break-word;
+	}
 
 	.prose-cody blockquote {
 		@apply text-quote border-l-0;

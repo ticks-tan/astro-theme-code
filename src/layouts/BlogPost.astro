@@ -85,13 +85,17 @@ const articleDate = updatedDate?.toISOString() ?? pubDate.toISOString();
 					)
 				}
 			</div>
-			<span class="font-semibold text-textColor flex gap-2 items-center">
-				<FormattedDate
-					date={pubDate}
-					dateTimeOptions={dateTimeOptions}
-				/>
-				<span>
-					/ {minutesRead}
+			<div
+				class="flex flex-col gap-2 items-start md:flex-row md:items-center"
+			>
+				<span class="font-semibold text-sm text-textColor">
+					<FormattedDate
+						date={pubDate}
+						dateTimeOptions={dateTimeOptions}
+					/>
+					<span>
+						/ {minutesRead}
+					</span>
 				</span>
 				{
 					updatedDate && (
@@ -104,7 +108,7 @@ const articleDate = updatedDate?.toISOString() ?? pubDate.toISOString();
 						</div>
 					)
 				}
-			</span>
+			</div>
 			{
 				tags && (
 					<ul class="not-prose flex gap-2 flex-wrap">
