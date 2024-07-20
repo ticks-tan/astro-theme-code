@@ -28,11 +28,12 @@
 		"@astrojs/sitemap": "^3.1.6",
 		"@astrojs/tailwind": "^5.1.0",
 		"@expressive-code/plugin-text-markers": "^0.35.3",
-		"astro": "^4.11.3",
+		"astro": "^4.12.2",
 		"astro-expressive-code": "^0.35.3",
 		"astro-icon": "^0.8.2",
 		"mdast-util-to-string": "^4.0.0",
 		"reading-time": "^1.5.0",
+		"sharp": "^0.33.4",
 		"tailwindcss": "^3.4.4",
 		"typescript": "^5.3.3"
 	},
