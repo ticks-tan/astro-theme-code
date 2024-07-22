@@ -44,7 +44,7 @@ export default {
     // true: <div
     //          className=""
     //          style= >
-    jsxBracketSameLine: false,
+    bracketSameLine: false,
 
     //箭头函数中的括号
     // “avoid” - 在有需要的时候使用. Example: x => x

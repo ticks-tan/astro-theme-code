@@ -253,3 +253,10 @@ block:
 $$
 L = \frac{1}{2} \rho v^2 S C_L
 $$
+
+mhchem: $\ce{Ca5(PO4)3F}$
+
+$$
+\ce{A ->[{up text}][{down text}] B}
+$$
+
