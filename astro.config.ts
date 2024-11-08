@@ -3,12 +3,8 @@ import sitemap from '@astrojs/sitemap';
 import astroExpressiveCode from 'astro-expressive-code';
 import tailwind from '@astrojs/tailwind';
 import robotsTxt from 'astro-robots-txt';
-import nodeAdapter from '@astrojs/node';
-import db from '@astrojs/db';
-import solidJs from '@astrojs/solid-js';
 
 import { expressiveCodeOptions } from './src/consts';
-import { SQLLoaderSetup } from './src/lib/plugin/hooks';
 import { remarkReadingTime } from './src/lib/plugin/remark-reading-time.mjs';
 
 // https://astro.build/config
@@ -36,9 +32,6 @@ export default defineConfig({
                 },
             ],
         }),
-        db(),
-        solidJs(),
-        SQLLoaderSetup,
     ],
     prefetch: true,
     image: {
@@ -54,7 +47,4 @@ export default defineConfig({
             minify: false,
         },
     },
-    adapter: nodeAdapter({
-        mode: 'standalone',
-    }),
 });

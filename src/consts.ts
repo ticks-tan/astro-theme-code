@@ -44,7 +44,7 @@ export const socialLinks: Array<SocialLink> = [
     {
         icon: 'mdi:email',
         friendlyName: 'email',
-        link: 'mailto:ticks.cc@gmail.com',
+        link: 'mailto:ppixiu07@gmail.com',
     },
     {
         icon: 'mdi:rss',
@@ -132,6 +132,11 @@ export const homeTech: Array<{ title: string; desc: string; href: string }> = [
         href: 'https://docs.astro.build/en/guides/assets/',
     },
     {
+        title: 'Astro Icon',
+        desc: 'An easy to use Icon component for Astro.',
+        href: 'https://github.com/natemoo-re/astro-icon#readme',
+    },
+    {
         title: 'Tailwind CSS',
         desc: 'Rapidly build modern websites without ever leaving your HTML.',
         href: 'https://tailwindcss.com',
@@ -140,15 +145,5 @@ export const homeTech: Array<{ title: string; desc: string; href: string }> = [
         title: 'Markdown',
         desc: 'Simple and easy-to-use markup language.',
         href: 'https://www.markdownguide.org/',
-    },
-    {
-        title: 'MDX',
-        desc: 'Markdown for the component era.',
-        href: 'https://mdxjs.com/',
-    },
-    {
-        title: 'Astro Icon',
-        desc: 'An easy to use Icon component for Astro.',
-        href: 'https://github.com/natemoo-re/astro-icon#readme',
     },
 ];

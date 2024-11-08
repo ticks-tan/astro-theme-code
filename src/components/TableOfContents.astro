@@ -87,7 +87,7 @@ function buildToc(headings: ReadonlyArray<MarkdownHeading>) {
 
     links.forEach((link) => {
         // 点击高亮
-        link.addEventListener('click', (e) => {
+        link.addEventListener('click', (_e) => {
             highlightHeading(link);
         });
         const heading = document.querySelector(link.getAttribute('href') ?? '');

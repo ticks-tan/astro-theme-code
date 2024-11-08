@@ -1,10 +1,10 @@
 import type { AstroIntegration } from 'astro';
 
-export const SQLLoaderSetup: AstroIntegration = {
+export const DevLoaderSetup: AstroIntegration = {
     name: 'sqlite-setup-hook',
     hooks: {
         'astro:server:setup': async ({ server, refreshContent }) => {
-            server.middlewares.use('/_refresh_db_content', async (req, res) => {
+            server.middlewares.use('/_refresh_content', async (req, res) => {
                 if (req.method !== 'POST') {
                     res.statusCode = 405;
                     res.end('Method Not Allowed');
@@ -19,7 +19,7 @@ export const SQLLoaderSetup: AstroIntegration = {
                         const webhookBody = JSON.parse(body);
                         await refreshContent?.({
                             context: { webhookBody },
-                            loaders: ['astro-libsql-blog-loader'],
+                            loaders: ['astro-directus-blog-loader'],
                         });
                         res.writeHead(200, {
                             'Content-Type': 'application/json',
