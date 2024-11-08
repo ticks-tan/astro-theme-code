@@ -1,0 +1,67 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getAllBlogs, sortBlogsByDate } from '~/lib/post/post';
+import BaseLayout from '~/layouts/Base.astro';
+import FormattedDate from '~/components/FormattedDate.astro';
+import { siteConfig } from '~/consts';
+
+const allPosts = await getAllBlogs();
+const allPostsByDate = sortBlogsByDate(allPosts, 'ascending');
+
+const getGroupsByYear = (
+    posts: Array<CollectionEntry<'blog'>>,
+): Record<string, Array<CollectionEntry<'blog'>>> => {
+    const initialValue: Record<string, Array<CollectionEntry<'blog'>>> = {};
+    return posts.reduce((groups, p) => {
+        const date = new Date(p.data.date_created);
+        const year: string = date.getFullYear().toString();
+        if (!groups[year]) {
+            groups[year] = [];
+        }
+        groups[year].push(p);
+        return groups;
+    }, initialValue);
+};
+
+const groupArray = (posts: Array<CollectionEntry<'blog'>>) => {
+    const groups = getGroupsByYear(posts);
+    const keys: Array<string> = Object.keys(groups);
+    return keys.map((year) => {
+        return {
+            year,
+            posts: groups[year],
+        };
+    });
+};
+
+const archivedPosts = groupArray(allPostsByDate).reverse();
+---
+
+<BaseLayout title={`Archive | ${siteConfig.title}`} description="">
+    <main class="space-y-4">
+        {
+            archivedPosts.map((group) => (
+                <ul class="space-y-2">
+                    <h2 class="title" id={group.year}>
+                        <a href={`#${group.year}`} class="-ml-2 cody-link">
+                            <time datetime={group.year}>{group.year}</time>
+                        </a>
+                    </h2>
+                    {group.posts.map((p) => (
+                        <li>
+                            <FormattedDate
+                                date={
+                                    p.data.date_updated ?? p.data.date_created
+                                }
+                                formatStr="MM-dd"
+                            />
+                            <a class="cody-link" href={`/blog/${p.id}`}>
+                                {p.data.title}
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            ))
+        }
+    </main>
+</BaseLayout>

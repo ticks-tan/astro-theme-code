@@ -1,0 +1,48 @@
+---
+/**
+ * 包含侧边栏布局
+ */
+import BaseHead from '@/components/BaseHead';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import { siteConfig } from '~/consts.ts';
+
+interface Props {
+    title?: string;
+    description?: string;
+    image?: string;
+    articleDate?: string;
+    katex?: boolean;
+}
+
+const {
+    title = siteConfig.title,
+    description = siteConfig.description,
+    image,
+    articleDate,
+    katex,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+    <head>
+        <BaseHead
+            title={title}
+            description={description}
+            image={image}
+            articleDate={articleDate}
+            katex={katex}
+        />
+    </head>
+    <body>
+        <Header />
+        <main
+            class="grid grid-cols-1 gap-y-16 sm:grid-cols-[3fr_1fr] sm:gap-x-4"
+        >
+            <slot />
+            <slot name="sidebar" />
+        </main>
+        <Footer />
+    </body>
+</html>

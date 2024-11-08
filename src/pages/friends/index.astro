@@ -1,0 +1,36 @@
+---
+import Layout from '~/layouts/Base.astro';
+import { friendsData } from './data';
+---
+
+<Layout
+    title="Friends"
+    description="Some friends"
+    image="/blog-placeholder-about.jpg"
+>
+    <h1 class="title">Friends</h1>
+    <p>Hi, Here are some friends links:</p>
+
+    <ul class="mt-4 space-y-3">
+        {
+            friendsData.map((friend) => (
+                <li>
+                    <a
+                        href={friend.url}
+                        class="flex flex-col gap-1 group"
+                        target="_blank"
+                    >
+                        <div>
+                            <span class="font-bold text-accent group-hover:underline">
+                                {friend.name}
+                            </span>
+                        </div>
+                        <div>
+                            <span>{friend.description}</span>
+                        </div>
+                    </a>
+                </li>
+            ))
+        }
+    </ul>
+</Layout>

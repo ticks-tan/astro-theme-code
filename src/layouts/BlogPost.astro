@@ -1,0 +1,108 @@
+---
+/**
+ * 博客文章布局
+ */
+import { render, type CollectionEntry } from 'astro:content';
+import { Icon } from 'astro-icon';
+import Layout from '~/layouts/Sidebar.astro';
+import FormattedDate from '~/components/FormattedDate.astro';
+import TOC from '~/components/TableOfContents.astro';
+import BackToTopBtn from '~/components/BackToTopBtn.astro';
+
+interface Props {
+    post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+
+const {
+    id,
+    data: {
+        title,
+        description,
+        date_created,
+        date_updated,
+        katex,
+        draft,
+        tags,
+    },
+} = post;
+
+const { headings, remarkPluginFrontmatter } = await render(post);
+const { minutesRead } = remarkPluginFrontmatter;
+const articleDate = date_updated?.toISOString() ?? date_created.toISOString();
+---
+
+<Layout
+    title={title}
+    description={description}
+    articleDate={articleDate}
+    katex={katex}
+>
+    <article
+        class="cody-bg prose dark:prose-invert prose-cody text-textColor max-w-4xl"
+    >
+        <header class="space-y-2">
+            <div class="flex gap-2 items-center">
+                <h1 class="text-3xl my-0">{title}</h1>
+                {
+                    draft && (
+                        <span class="px-1 py-0 bg-red-200 text-red-600 text-sm font-semibold">
+                            draft
+                        </span>
+                    )
+                }
+            </div>
+            <div
+                class="flex flex-col gap-2 items-start md:flex-row md:items-center"
+            >
+                <span class="font-semibold text-sm text-textColor">
+                    <FormattedDate date={date_created} formatStr="yyyy-MM-dd" />
+                    <span>
+                        / {minutesRead}
+                    </span>
+                </span>
+                {
+                    date_updated && (
+                        <div class="italic px-2 bg-accent-2 w-fit text-sm font-normal">
+                            Last updated:{' '}
+                            <FormattedDate
+                                date={date_updated}
+                                formatStr="yyyy-MM-dd"
+                            />
+                        </div>
+                    )
+                }
+            </div>
+            {
+                tags && (
+                    <ul class="not-prose flex gap-2 flex-wrap">
+                        <Icon
+                            class="w-5 h-5"
+                            name="carbon:tag-group"
+                            aria-hidden="true"
+                            focusable="false"
+                        />
+                        {tags.map((tag: string) => (
+                            <li class="tag">
+                                <a href={`/tags/${tag}`}>{tag}</a>
+                            </li>
+                        ))}
+                    </ul>
+                )
+            }
+        </header>
+        <hr class="my-4" />
+        <main
+            class="prose-sm prose-headings:font-semibold prose-headings:ml-4 prose-headings:before:absolute prose-headings:before:-ms-4 prose-headings:before:text-accent prose-headings:before:content-['#'] prose-th:before:content-none prose-a:text-accent"
+        >
+            <slot />
+        </main>
+        <BackToTopBtn />
+    </article>
+    <aside slot="sidebar" class="hidden sm:block">
+        {!!headings.length && <TOC headings={headings} />}
+    </aside>
+</Layout>
+
+<!-- <CopyBtn /> -->

@@ -1,0 +1,136 @@
+---
+import type { MarkdownHeading } from 'astro';
+import TableOfContentsHeading from '~/components/TableOfContentsHeading.astro';
+
+const { headings } = Astro.props;
+const toc = buildToc(headings);
+
+export interface TocItem extends MarkdownHeading {
+    subheadings: Array<TocItem>;
+}
+
+function diveChildren(item: TocItem, depth: number): Array<TocItem> {
+    if (depth === 1 || !item.subheadings.length) {
+        return item.subheadings;
+    } else {
+        // e.g., 2
+        return diveChildren(
+            item.subheadings[item.subheadings.length - 1] as TocItem,
+            depth - 1,
+        );
+    }
+}
+
+function buildToc(headings: ReadonlyArray<MarkdownHeading>) {
+    // this ignores/filters out h1 element(s)
+    const bodyHeadings = headings.filter(({ depth }) => depth > 1);
+    const toc: Array<TocItem> = [];
+
+    bodyHeadings.forEach((h) => {
+        const heading: TocItem = { ...h, subheadings: [] };
+
+        // add h2 elements into the top level
+        if (heading.depth === 2) {
+            toc.push(heading);
+        } else if (toc.length > 0) {
+            const lastItemInToc = toc[toc.length - 1];
+            if (heading.depth < lastItemInToc.depth) {
+                throw new Error(`Orphan heading found: ${heading.text}.`);
+            }
+
+            // higher depth
+            // push into children, or children's children
+            const gap = heading.depth - lastItemInToc.depth;
+            const target = diveChildren(lastItemInToc, gap);
+            target.push(heading);
+        }
+    });
+    return toc;
+}
+---
+
+<nav class="sticky top-20 order-2 hidden basis-64 lg:block">
+    <!-- <hr/> -->
+    <h2 class="font-bold text-lg">Table of Contents</h2>
+    <ul class="-me-32 space-y-1" id="toc">
+        {
+            toc.length > 0 ? (
+                toc.map((heading) => (
+                    <TableOfContentsHeading heading={heading} />
+                ))
+            ) : (
+                <p class="text-red-500">不规范目录，已取消显示</p>
+            )
+        }
+    </ul>
+</nav>
+
+<script>
+    // 高亮目录
+    function highlightHeading(id: string | Element) {
+        document.querySelectorAll('.active-toc').forEach((el) => {
+            el.classList.remove('active-toc');
+        });
+        if (id instanceof Element) {
+            id.classList.add('active-toc');
+            return;
+        }
+        if (id.startsWith('#')) {
+            id = id.slice(1);
+        }
+        document.querySelector(`#toc-${id}`)?.classList.add('active-toc');
+    }
+    // 获取所有目录链接
+    const links = document.querySelectorAll('#toc a');
+    // 目录对应的标题元素
+    let domHeadings: Array<Element> = [];
+
+    links.forEach((link) => {
+        // 点击高亮
+        link.addEventListener('click', (e) => {
+            highlightHeading(link);
+        });
+        const heading = document.querySelector(link.getAttribute('href') ?? '');
+        if (heading) {
+            domHeadings.push(heading);
+        }
+    });
+
+    // 节流，避免大量滚动事件
+    function debounce(func: Function, delay: number) {
+        let inDebounce: NodeJS.Timeout;
+        return function (this: any) {
+            clearTimeout(inDebounce);
+            inDebounce = setTimeout(() => func.apply(this, arguments), delay);
+        };
+    }
+    // 判断是否高亮的最大边界
+    const showMaxTop = 300;
+    const scrollHandle = debounce(() => {
+        // 获取标题的边界
+        const boundRect = domHeadings.map((heading) =>
+            heading.getBoundingClientRect(),
+        );
+        for (let i = 0; i < domHeadings.length; ++i) {
+            const h = domHeadings[i];
+            const rect = boundRect[i];
+            // 当前标题是在边界内
+            if (rect.top >= 0 && rect.top <= showMaxTop) {
+                highlightHeading(h.id);
+                return;
+            }
+            // 边界内没有任何标题，高亮上一个标题
+            if (
+                rect.top < 0 &&
+                i < domHeadings.length - 1 &&
+                boundRect[i + 1].top > showMaxTop
+            ) {
+                highlightHeading(h.id);
+                return;
+            }
+        }
+        // 清除高亮
+        highlightHeading('');
+    }, 150);
+    window.addEventListener('scroll', scrollHandle);
+</script>

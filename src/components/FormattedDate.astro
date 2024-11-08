@@ -1,0 +1,16 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { DataUtils } from '~/lib/util/date';
+
+type Props = HTMLAttributes<'time'> & {
+    date: string | Date;
+    formatStr?: string;
+};
+
+const { date, formatStr = 'yyyy-MM-dd', ...attrs } = Astro.props;
+const formattedDate = DataUtils.formatDate(date, formatStr);
+---
+
+<time datetime={new Date(date).toISOString()} {...attrs} title={formattedDate}>
+    {formattedDate}
+</time>

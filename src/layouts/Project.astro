@@ -1,0 +1,106 @@
+---
+/**
+ * 项目布局
+ */
+import type { CollectionEntry } from 'astro:content';
+import { Icon } from 'astro-icon';
+import { render } from 'astro:content';
+import Layout from '~/layouts/Sidebar.astro';
+import TOC from '~/components/TableOfContents.astro';
+
+interface Props {
+    project: CollectionEntry<'project'>;
+}
+
+const { project } = Astro.props;
+const {
+    data: {
+        title,
+        date_created,
+        description,
+        platform,
+        stack,
+        website,
+        github,
+    },
+} = project;
+const { headings } = await render(project);
+const articleDate = date_created.toISOString();
+---
+
+<Layout title={title} description={description} articleDate={articleDate}>
+    <section class="cody-bg space-y-2 sm:space-y-4">
+        <h2 class="title">{title}</h2>
+
+        <ul class="space-y-2">
+            {
+                platform && (
+                    <li class="project-frontmatter-item">
+                        <small>PLATFORM</small>
+                        <span>{platform}</span>
+                    </li>
+                )
+            }
+            {
+                stack.length > 0 && (
+                    <li class="project-frontmatter-item">
+                        <small>STACK</small>
+                        <ul class="inline-flex gap-2 sm:gap-4">
+                            {stack.map((s: string) => (
+                                <li>
+                                    <Icon
+                                        class="h-6 w-6 text-textColor"
+                                        name={`vscode-icons:file-type-${s.toLowerCase()}`}
+                                        focusable="false"
+                                        title={s}
+                                    />
+                                </li>
+                            ))}
+                        </ul>
+                    </li>
+                )
+            }
+            {
+                website && (
+                    <li class="project-frontmatter-item">
+                        <small>WEBSITE</small>
+                        <a href={website} target="_blank" class="cody-link">
+                            {website}
+                        </a>
+                    </li>
+                )
+            }
+            {
+                github && (
+                    <li class="project-frontmatter-item">
+                        <small>GITHUB</small>
+                        <a href={github} target="_blank" class="cody-link">
+                            {github}
+                        </a>
+                    </li>
+                )
+            }
+        </ul>
+
+        <hr />
+
+        <div
+            class="prose dark:prose-invert prose-sm prose-headings:font-semibold prose-headings:ml-4 prose-headings:before:absolute prose-headings:before:-ms-4 prose-headings:before:text-accent prose-headings:before:content-['#'] prose-th:before:content-none"
+        >
+            <slot />
+        </div>
+    </section>
+    <aside slot="sidebar">
+        {!!headings.length && <TOC headings={headings} />}
+    </aside>
+</Layout>
+
+<style>
+    small {
+        @apply text-bgColor text-center px-1 bg-accent mr-2 font-semibold min-w-[95px];
+    }
+
+    .project-frontmatter-item {
+        @apply flex flex-col gap-x-0 sm:flex-row;
+    }
+</style>

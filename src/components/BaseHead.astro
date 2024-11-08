@@ -1,0 +1,112 @@
+---
+// Import the global.css file here so that it is included on
+// all pages through the use of the <BaseHead /> component.
+import '~/styles/global.css';
+import { siteConfig } from '~/consts.ts';
+
+interface Props {
+    title: string;
+    description: string;
+    image?: string;
+    articleDate?: string;
+    katex?: boolean;
+}
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+const {
+    title,
+    description,
+    articleDate,
+    image = '/blog-placeholder-1.jpg',
+    katex = false,
+} = Astro.props;
+const titleSeparator = '|';
+const siteTitle = `${title} ${titleSeparator} ${siteConfig.title}`;
+---
+
+<!-- Global Metadata -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<meta name="generator" content={Astro.generator} />
+
+<!-- Font preloads -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+    href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+    rel="stylesheet"
+/>
+<link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100..900&display=swap"
+    rel="stylesheet"
+/>
+
+<!-- Canonical URL -->
+<link rel="canonical" href={canonicalURL} />
+<link rel="sitemap" href="/sitemap-0.xml" />
+
+<!-- Primary Meta Tags -->
+<title>{siteTitle}</title>
+<meta name="title" content={title} />
+<meta name="description" content={description} />
+<meta name="author" content={siteConfig.profile.author} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content={Astro.url} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={new URL(image, Astro.url)} />
+{
+    articleDate && (
+        <>
+            <meta
+                property="article:author"
+                content={siteConfig.profile.author}
+            />
+            <meta property="article:published_time" content={articleDate} />
+        </>
+    )
+}
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={Astro.url} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={new URL(image, Astro.url)} />
+
+<!-- Other -->
+{
+    katex && (
+        <>
+            <link
+                rel="stylesheet"
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css"
+                integrity="sha384-wcIxkf4k558AjM3Yz3BBFQUbk/zgIYC2R0QpeeYb+TwlBVMrlgLqwRjRtGZiK7ww"
+                crossorigin="anonymous"
+            />
+            <script
+                defer
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"
+                integrity="sha384-hIoBPJpTUs74ddyc4bFZSM1TVlQDA60VBbJS0oA934VSz82sBx1X7kSx2ATBDIyd"
+                crossorigin="anonymous"
+            />
+            <script
+                defer
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/mhchem.min.js"
+                integrity="sha384-ifpG+NlgMq0kvOSGqGQxW1mJKpjjMDmZdpKGq3tbvD3WPhyshCEEYClriK/wRVU0"
+                crossorigin="anonymous"
+            />
+            <script
+                defer
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js"
+                integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk"
+                crossorigin="anonymous"
+                onload="renderMathInElement(document.body, {delimiters: [{ left: '$$', right: '$$', display: true },{ left: '$', right: '$', display: false },{ left: '\\(', right: '\\)', display: false },{ left: '\\[', right: '\\]', display: true }],throwOnError: false});"
+            />
+        </>
+    )
+}

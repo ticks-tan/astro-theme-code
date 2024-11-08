@@ -1,0 +1,49 @@
+---
+// src/layouts/ManagerLayout.astro
+import BaseHead from '~/components/BaseHead.astro';
+import ThemeToggle from '~/components/ThemeToggle.astro';
+
+const layoutMeta = {
+    title: 'Blog Manager',
+    description: 'Blog Manager',
+};
+---
+
+<html lang="en">
+    <BaseHead title={layoutMeta.title} description={layoutMeta.description} />
+    <body class="bg-bgColor">
+        <div class="container mx-auto p-4">
+            <nav class="mb-8 flex items-end justify-between">
+                <ul class="flex space-x-4">
+                    <li>
+                        <a
+                            href="/manager/"
+                            class="text-textColor hover:text-accent text-base"
+                            >主页</a
+                        >
+                    </li>
+                    <li>
+                        <a
+                            href="/manager/recycle"
+                            class="text-textColor hover:text-accent text-base"
+                            >回收站</a
+                        >
+                    </li>
+                </ul>
+                <ul class="flex space-x-4">
+                    <li>
+                        <ThemeToggle />
+                    </li>
+                    <li>
+                        <a href="/manager/logout" class="text-red-500 text-base"
+                            >退出登录</a
+                        >
+                    </li>
+                </ul>
+            </nav>
+            <main class="p-4 border border-textColor/80">
+                <slot />
+            </main>
+        </div>
+    </body>
+</html>
