@@ -15,8 +15,6 @@
 2. [快速开始](#快速开始)
 3. [命令](#命令)
 4. [配置](#配置)
-5. [部署](#部署)
-6. [Credit](#credit)
 
 ## 特征:
 
@@ -34,12 +32,6 @@
 -   [Katex](https://katex.org/) support
 -   Toc highlight support
 -   Cloudflare Pages Depoly support
-
-## 快速开始
-
-待编写。
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## 命令
 
@@ -67,23 +59,40 @@
 
 ## 部署
 
-待编写 。
+前提：
+
+1. 拥有 github 和 cloudflare 账号
+2. 自部署 directus 或 使用官方服务
+3. directus 中新建 `BlogPosts` 数据模型，字段和布局如下：
+
+```ts
+export type DirectusBlogPost = {
+    id: string;
+    title: string;
+    description?: string; // 可为空值
+    date_created: string;
+    date_updated?: string;
+    tags?: string;
+    katex: boolean;
+    pin: boolean;
+    draft: boolean;
+    content: string;
+};
+```
+
+如下图：
+![directus schema](./docs/images/directus_schema.png)
+
+步骤：
+
+1. [fork](https://github.com/ticks-tan/astro-theme-code/fork) 本仓库
+2. 转到 cloudflare pages，链接到 GitHub 账号并授权仓库访问权限
+3. 部署仓库，模板选择 `Astro` ，其余选项不变。
+4. 新增环境变量如下：
+
+    1. `DIRECTUS_URL`： directus 服务服务器地址（如：`http://<ip>:<port>` 或 `https://<domain>`）
+    2. `DIRECTUS_TOKEN`：访问 Token ，以便构建时从 directus 获取数据
+
+5. 执行构建，构建完成！
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-## Credit
-
-This theme is based off of the theme [Astro Cody](https://github.com/kirontoo/astro-theme-cody), [Astro Cactus](https://astro-theme-cactus.netlify.app) and [Hugo Risotto](https://risotto.joeroe.io).
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-[contributors-shield]: https://img.shields.io/github/contributors/kirontoo/astro-theme-cody.svg?style=for-the-badge
-[contributors-url]: https://github.com/kirontoo/astro-theme-cody/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/kirontoo/astro-theme-cody.svg?style=for-the-badge
-[forks-url]: https://github.com/kirontoo/astro-theme-cody/network/members
-[stars-shield]: https://img.shields.io/github/stars/kirontoo/astro-theme-cody.svg?style=for-the-badge
-[stars-url]: https://github.com/kirontoo/astro-theme-cody/stargazers
-[issues-shield]: https://img.shields.io/github/issues/kirontoo/astro-theme-cody.svg?style=for-the-badge
-[issues-url]: https://github.com/kirontoo/astro-theme-cody/issues
-[license-shield]: https://img.shields.io/github/license/kirontoo/astro-theme-cody.svg?style=for-the-badge
-[license-url]: https://github.com/kirontoo/astro-theme-cody/blob/master/LICENSE.txt
