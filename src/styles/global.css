@@ -3,28 +3,48 @@
 @tailwind utilities;
 
 @layer base {
+    /* Font Configution */
+    @font-face {
+        font-family: 'JetBrainsMono';
+        font-style: normal;
+        font-weight: 400;
+        src: url(/fonts/JetBrainsMono-Regular.woff2) format('woff2');
+    }
+    @font-face {
+        font-family: 'JetBrainsMono';
+        font-style: medium;
+        src: url(/fonts/JetBrainsMono-Medium.woff2) format('woff2');
+    }
+    @font-face {
+        font-family: 'JetBrainsMono';
+        font-style: bold;
+        src: url(/fonts/JetBrainsMono-Bold.woff2) format('woff2');
+    }
+
+    /* Color Schema */
     :root,
     :root[data-theme='light'] {
         color-scheme: light;
-        /* https://tailwindcss.com/docs/customizing-colors#using-css-variables */
-        --theme-bg: #fffef9;
-        --theme-text: #222222;
-        --theme-accent: #61649f;
-        --theme-accent-2: #74759b;
-        --theme-surface: #e6e6e6;
-        --theme-quote: #61649f;
-        --theme-highlight: #61649f;
+        /* Material 3 浅色主题 */
+        --theme-bg: #fffbfe; /* Material 3 标准背景色 */
+        --theme-text: #1c1b1f; /* 主要文本色 */
+        --theme-accent: #6750a4; /* 主要强调色 */
+        --theme-accent-2: #9a82db; /* 次要强调色 */
+        --theme-surface: #f7f2fa; /* 表面色 */
+        --theme-quote: #6750a4; /* 引用色，与强调色一致 */
+        --theme-highlight: rgba(103, 80, 164, 0.12); /* 高亮色 */
     }
 
     :root[data-theme='dark'] {
         color-scheme: dark;
-        --theme-bg: #1d1d1d;
-        --theme-text: #f1f0ed;
-        --theme-accent: #2c9678;
-        --theme-accent-2: #545454;
-        --theme-surface: #2f2f2f;
-        --theme-quote: #2c9678;
-        --theme-highlight: #2c9678;
+        /* Material 3 深色主题 */
+        --theme-bg: #1c1b1f; /* 深色背景 */
+        --theme-text: #e6e1e5; /* 深色主题文本色 */
+        --theme-accent: #d0bcff; /* 深色主题强调色 */
+        --theme-accent-2: #ccc2dc; /* 深色主题次要强调色 */
+        --theme-surface: #2b2930; /* 深色主题表面色 */
+        --theme-quote: #d0bcff; /* 深色主题引用色 */
+        --theme-highlight: rgba(208, 188, 255, 0.12); /* 深色主题高亮色 */
     }
 
     html {
@@ -32,32 +52,33 @@
     }
 
     html body {
-        @apply mx-auto flex min-h-screen max-w-6xl flex-col px-4 font-mono text-sm font-normal antialiased bg-bgColor text-textColor;
+        @apply mx-auto flex min-h-screen max-w-7xl flex-col px-4 font-mono text-sm md:text-base font-normal antialiased bg-bgColor text-textColor;
     }
 
     /*
-  * CSS for markdown and MDX blog posts
+  * Markdown Post Style
   */
 
-    .prose-cody {
+    .prose-box {
         word-wrap: break-word;
+        @apply leading-relaxed;
     }
 
-    .prose-cody blockquote {
-        @apply text-quote border-l-0;
+    .prose-box blockquote {
+        @apply text-quote border-l-4 border-accent bg-bgColor border-opacity-50 p-4 rounded-md;
     }
 
-    .prose-cody a {
-        @apply no-underline;
+    .prose-box a {
+        @apply no-underline border-b border-accent border-opacity-0 hover:border-opacity-100 transition-colors duration-200;
     }
 
-    .prose-cody strong {
-        font-weight: 700;
+    .prose-box strong {
+        @apply font-bold text-accent;
     }
 
-    .prose-cody
+    .prose-box
         :where(code):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
-        @apply bg-accent !text-surface px-1 py-0;
+        @apply bg-accent-2 !text-surface px-1 py-1 rounded;
     }
 
     .prose
@@ -74,71 +95,73 @@
         content: none !important;
     }
     pre.astro-code {
-        @apply !bg-surface;
+        /* @apply !bg-surface; */
+        @apply bg-surface p-4 rounded-md overflow-x-auto;
     }
     div:has(> pre.astro-code) {
         @apply border-accent border-2;
     }
 
-    .prose-cody hr {
+    .prose-box hr {
         border-top-style: dashed;
         border-top-width: 0.5px;
-        @apply border-accent my-4;
+        @apply border-t-2 border-accent my-6;
     }
-    .prose-cody thead {
+    .prose-box thead {
         @apply border-b-0;
     }
 
-    .prose-cody thead th {
+    .prose-box thead th {
         @apply font-bold border-b border-dashed border-accent;
     }
 
-    .prose-cody tbody tr {
+    .prose-box tbody tr {
         @apply border-b-0;
     }
 
-    .prose-cody tfoot {
+    .prose-box tfoot {
         @apply font-bold border-t border-dashed border-accent;
     }
 
-    .prose-cody sup {
+    .prose-box sup {
         @apply ms-0.5;
     }
 
-    .prose-cody sup > a {
+    .prose-box sup > a {
         @apply bg-none;
     }
 
-    .prose-cody sup > a:hover {
+    .prose-box sup > a:hover {
         @apply text-accent no-underline bg-none;
     }
 
-    .prose-cody sup > a:before {
+    .prose-box sup > a:before {
         content: '[';
         @apply text-accent;
     }
 
-    .prose-cody sup > a:after {
+    .prose-box sup > a:after {
         content: ']';
         @apply text-accent;
     }
 
-    .prose-cody mark {
-        @apply bg-accent;
+    .prose-box mark {
+        @apply bg-highlight text-textColor;
     }
 
-    .prose-cody li::marker {
+    .prose-box li::marker {
         @apply text-accent;
     }
 
-    .prose-cody table {
+    .prose-box table {
         display: block;
         overflow-x: auto;
         white-space: nowrap;
+        margin-bottom: 2rem;
     }
 
     /*
-  * ===== END =====
+  * Markdown Style End
   */
 
     .tag {
@@ -183,7 +206,7 @@
     }
 
     .title {
-        @apply text-lg font-bold mb-4;
+        @apply font-bold mb-4;
     }
 
     hr {
@@ -191,11 +214,11 @@
     }
 
     ::selection {
-        @apply bg-highlight text-bgColor;
+        @apply bg-accent text-bgColor;
     }
 
     ::-moz-selection {
-        @apply bg-highlight text-bgColor;
+        @apply bg-accent text-bgColor;
     }
 
     .fade-in {

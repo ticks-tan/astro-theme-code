@@ -4,7 +4,18 @@ export default {
     darkMode: ['selector', '[data-theme="dark"]'],
     theme: {
         fontFamily: {
-            mono: ['Space Mono', 'Noto Sans SC', 'monospace'],
+            mono: [
+                'system-ui',
+                '-apple-system',
+                'JetBrainsMono',
+                'Roboto',
+                'Segoe UI',
+                'Helvetica',
+                'Noto Sans SC',
+                'Microsoft Yahei',
+                'PingFang SC',
+                'sans-serif',
+            ],
         },
         extend: {
             colors: {

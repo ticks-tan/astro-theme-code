@@ -6,22 +6,27 @@ type Props = HTMLAttributes<'a'>;
 const { href, class: className, ...props } = Astro.props;
 
 const { pathname } = Astro.url;
-const isActive = href === pathname || href === pathname.replace(/\/$/, '');
+const isActive =
+    href === pathname ||
+    (href !== '/' && pathname.startsWith(href?.toString() ?? '/'));
 ---
 
-<a href={href} class:list={[className, { active: isActive }]} {...props}>
+<a
+    href={href}
+    class={`${className} ${isActive ? 'navlink-active' : ''}`}
+    {...props}
+>
     <slot />
 </a>
 
 <style>
-    a:before {
-        content: './';
-        @apply -mr-2 text-accent-2;
-    }
     a {
-        @apply text-accent mr-1;
+        @apply text-textColor;
     }
     a:hover {
         text-decoration: underline;
+    }
+    .navlink-active {
+        @apply text-accent;
     }
 </style>

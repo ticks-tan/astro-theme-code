@@ -10,7 +10,7 @@ type Props = {
 };
 
 const { post, withDesc = false } = Astro.props;
-const postDate = post.data.date_updated ?? post.data.date_created;
+const postDate = post.data.date_created;
 const pinned: boolean = !!post.data.pin;
 const urlBasePath =
     post.collection === 'project' ? 'projects' : post.collection;

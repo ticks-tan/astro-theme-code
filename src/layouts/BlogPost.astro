@@ -39,11 +39,11 @@ const articleDate = date_updated?.toISOString() ?? date_created.toISOString();
     katex={katex}
 >
     <article
-        class="cody-bg prose dark:prose-invert prose-cody text-textColor max-w-4xl"
+        class="cody-bg prose dark:prose-invert prose-box text-textColor max-w-4xl"
     >
         <header class="space-y-2">
             <div class="flex gap-2 items-center">
-                <h1 class="text-3xl my-0">{title}</h1>
+                <h1 class="prose-2xl my-0">{title}</h1>
                 {
                     draft && (
                         <span class="px-1 py-0 bg-red-200 text-red-600 text-sm font-semibold">
@@ -63,7 +63,7 @@ const articleDate = date_updated?.toISOString() ?? date_created.toISOString();
                 </span>
                 {
                     date_updated && (
-                        <div class="italic px-2 bg-accent-2 w-fit text-sm font-normal">
+                        <div class="italic px-2 bg-accent text-bgColor w-fit text-sm font-normal">
                             Last updated:{' '}
                             <FormattedDate
                                 date={date_updated}
@@ -93,7 +93,7 @@ const articleDate = date_updated?.toISOString() ?? date_created.toISOString();
         </header>
         <hr class="my-4" />
         <main
-            class="prose-sm prose-headings:font-semibold prose-headings:ml-4 prose-headings:before:absolute prose-headings:before:-ms-4 prose-headings:before:text-accent prose-headings:before:content-['#'] prose-th:before:content-none prose-a:text-accent"
+            class="prose-sm md:prose-base prose-headings:font-semibold prose-headings:ml-4 prose-headings:before:absolute prose-headings:before:-ms-5 prose-headings:before:text-accent prose-headings:before:content-['#'] prose-th:before:content-none prose-a:text-accent"
         >
             <slot />
         </main>

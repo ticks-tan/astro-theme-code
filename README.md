@@ -59,6 +59,31 @@
 
 ## 部署
 
+### 博客数据：本地
+
+1. 修改 `src/content/config.ts`
+
+```ts
+- import { DirectusLoader, directSchema } from '~/lib/loader/DirectusLoader';
++ import { localBlogSchema } from '~/lib/loader/LocalBlogLoader.ts';
+
+// 博客集合
+const blog = defineCollection({
+-     type: 'content_layer',
+-     loader: DirectusLoader({
+-         url: import.meta.env.DIRECTUS_URL,
+-         token: import.meta.env.DIRECTUS_TOKEN,
+-     }),
+-     schema: directSchema,
++     loader: glob({ pattern: '**/[^_]*.md', base: './content/blogs' }),
++     schema: localBlogSchema,
+});
+```
+2. 本地运行：`pnpm run dev`
+
+
+### 数据：Directus
+
 前提：
 
 1. 拥有 github 和 cloudflare 账号

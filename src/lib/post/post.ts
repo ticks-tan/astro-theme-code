@@ -21,12 +21,8 @@ export function sortBlogsByDate(
     const direction = order === 'descending' ? 1 : -1;
 
     return posts.sort((a, b) => {
-        const aDate = new Date(
-            a.data.date_updated ?? a.data.date_created,
-        ).valueOf();
-        const bDate = new Date(
-            b.data.date_updated ?? b.data.date_created,
-        ).valueOf();
+        const aDate = new Date(a.data.date_created).valueOf();
+        const bDate = new Date(b.data.date_created).valueOf();
         return (bDate - aDate) * direction;
     });
 }

@@ -76,12 +76,17 @@ export const NAV_LINKS: Array<{ title: string; path: string }> = [
     },
 ];
 
+/**
+ * expressive 代码高亮配置
+ * See More : https://expressive-code.com/reference/configuration/
+ */
 export const expressiveCodeOptions: AstroExpressiveCodeOptions = {
     plugins: [esTextMarkersPlugin],
     styleOverrides: {
         borderRadius: '0rem',
-        codeFontFamily: 'monospace, "Noto Sans SC";',
-        codeFontSize: '0.875rem',
+        codeFontFamily: "JetBrainsMono, 'Noto Sans SC', monospace",
+        codeFontWeight: '400',
+        codeFontSize: '0.9rem',
         codeLineHeight: '1.5rem',
         borderColor: 'var(--theme-text)',
         codeBackground: 'var(--theme-surface)',
@@ -100,7 +105,8 @@ export const expressiveCodeOptions: AstroExpressiveCodeOptions = {
             terminalTitlebarBorderBottomColor: 'var(--theme-text)',
             terminalTitlebarDotsForeground: 'var(--theme-accent)',
             terminalTitlebarDotsOpacity: '0.5',
-            frameBoxShadowCssValue: 'none',
+            frameBoxShadowCssValue: '0.15rem 0.18rem',
+            shadowColor: 'var(--theme-text)',
         },
     },
     themeCssSelector(theme, { styleVariants }) {
@@ -118,8 +124,10 @@ export const expressiveCodeOptions: AstroExpressiveCodeOptions = {
         return `[data-theme="${theme.name}"]`;
     },
     themes: ['github-dark', 'github-light'],
+    emitExternalStylesheet: true,
 };
 
+// 主页网站技术块
 export const homeTech: Array<{ title: string; desc: string; href: string }> = [
     {
         title: 'Astro',

@@ -50,9 +50,7 @@ const archivedPosts = groupArray(allPostsByDate).reverse();
                     {group.posts.map((p) => (
                         <li>
                             <FormattedDate
-                                date={
-                                    p.data.date_updated ?? p.data.date_created
-                                }
+                                date={p.data.date_created}
                                 formatStr="MM-dd"
                             />
                             <a class="cody-link" href={`/blog/${p.id}`}>
