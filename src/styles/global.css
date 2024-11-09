@@ -172,6 +172,10 @@
         content: '#';
     }
 
+    .tag a {
+        @apply no-underline;
+    }
+
     .cody-link {
         @apply bg-[size:100%_6px] bg-bottom bg-repeat-x w-fit;
         background-image: linear-gradient(

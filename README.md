@@ -9,6 +9,11 @@
   </p>
 </div>
 
+<figure style='display:flex;'>
+  <img style='width:80%;' src="./docs/images/pc_preview.png"/>
+  <img style='width:20%;' src="./docs/images/mobile_preview.png"/>
+</figure>
+
 ## 目录
 
 1. [特性](#特征)
