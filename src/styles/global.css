@@ -170,7 +170,6 @@
 
     .tag:before {
         content: '#';
-        @apply -mr-2;
     }
 
     .cody-link {
