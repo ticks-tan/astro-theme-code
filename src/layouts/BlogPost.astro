@@ -30,6 +30,7 @@ const {
 const { headings, remarkPluginFrontmatter } = await render(post);
 const { minutesRead } = remarkPluginFrontmatter;
 const articleDate = date_updated?.toISOString() ?? date_created.toISOString();
+const articleLink = Astro.url.toString();
 ---
 
 <Layout
@@ -97,6 +98,45 @@ const articleDate = date_updated?.toISOString() ?? date_created.toISOString();
         >
             <slot />
         </main>
+        <!-- 底部文章其他信息 -->
+        <div
+            class="mt-12 border border-accent-2 rounded-md break-words p-6 flex flex-col space-y-1 text-sm"
+        >
+            <!-- For You -->
+            <span class="flex items-center break-all">
+                <Icon class="w-5 h-5 me-1" focusable="false" name="mdi:sign" />
+                <span class="text-sm whitespace-nowrap me-1">{'For You：'}</span
+                >
+                <span class="text-sm">愿你眼中有光芒，手中有温度。</span>
+            </span>
+            <!-- 文章链接与分享 -->
+            <span class="flex items-center break-all">
+                <Icon
+                    class="w-5 h-5 me-1"
+                    focusable="false"
+                    name="carbon:link"
+                />
+                <span class="text-sm whitespace-nowrap me-1">本文链接：</span>
+                <span
+                    id="post-share-link"
+                    class="text-sm no-underline border-none cursor-pointer"
+                    >{articleLink}</span
+                >
+            </span>
+            <!-- 转载声明 -->
+            <span class="flex items-center break-all">
+                <Icon
+                    class="w-5 h-5 me-1"
+                    focusable="false"
+                    name="carbon:share"
+                />
+                <span class="text-sm whitespace-nowrap me-1">转载声明：</span>
+                <span class="text-sm"
+                    >转载请保留本文地址，著作权归作者所有。</span
+                >
+            </span>
+        </div>
+        <!-- 返回顶部按钮 -->
         <BackToTopBtn />
     </article>
     <aside slot="sidebar" class="hidden sm:block">
@@ -104,4 +144,26 @@ const articleDate = date_updated?.toISOString() ?? date_created.toISOString();
     </aside>
 </Layout>
 
-<!-- <CopyBtn /> -->
+<script>
+    const postLinkBtn = document.getElementById('post-share-link');
+    const postShareLink =
+        postLinkBtn?.innerText ?? window.location.href.toString();
+    let isCopying = false;
+
+    async function copyLink() {
+        if (!postLinkBtn || isCopying) {
+            return;
+        }
+        isCopying = true;
+        const text = postLinkBtn.innerText ?? window.location.href;
+
+        await navigator.clipboard.writeText(text);
+        postLinkBtn.innerText = 'Link Copied';
+
+        setTimeout(() => {
+            postLinkBtn.innerHTML = postShareLink;
+            isCopying = false;
+        }, 1000);
+    }
+    postLinkBtn?.addEventListener('click', copyLink);
+</script>

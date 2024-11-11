@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/Base.astro';
 import PostPreview from '~/components/blog/PostPreviewB.astro';
 import SocialMediaLinks from '~/components/SocialMediaLinks.astro';
-import { homeTech } from '~/consts';
+import { siteConfig, homeTech } from '~/consts';
 import {
     getAllBlogs,
     sortBlogsByDate,
@@ -19,11 +19,7 @@ const allPostsByPinned = sortBlogsByPinned(allPostsByDate);
 <BaseLayout title="Home">
     <section>
         <h1 class="title">Hello World</h1>
-        <p class="mb-4 sm:mb-8">
-            如你所见，这里是我的个人博客。我主要在这里分享一些不太专业的技术类文章以及一些随笔。<br
-            />
-            希望你能在这里找到一些感兴趣的东西。
-        </p>
+        <p class="mb-4 sm:mb-8" set:html={siteConfig.helloworld} />
         <div>
             <span>你可以通过下面链接获取更多信息：</span>
             <SocialMediaLinks />
@@ -31,7 +27,7 @@ const allPostsByPinned = sortBlogsByPinned(allPostsByDate);
     </section>
 
     <section class="mt-8 sm:mt-16">
-        <h2 class="title">Posts</h2>
+        <h2 class="title">Recent Posts</h2>
         <ul class="space-y-4 sm:space-y-2">
             {allPostsByPinned.map((p) => <PostPreview post={p} />)}
         </ul>

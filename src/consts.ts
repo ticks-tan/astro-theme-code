@@ -8,6 +8,7 @@ type Config = {
     title: string;
     description: string;
     lang: string;
+    helloworld: string;
     profile: {
         author: string;
         description?: string;
@@ -22,11 +23,12 @@ type SocialLink = {
 
 export const siteConfig: Config = {
     title: 'twiify的博客',
-    description: '我的博客网站，分享一些有趣的文章。',
+    description: '我的博客空间，记录生活的惊喜。',
     lang: 'zh-CN',
+    helloworld: `生活总是充满惊喜，记录是最好的礼物。<br/>希望你能在这里找到一些惊喜。`,
     profile: {
         author: 'twiify',
-        description: '而浮生若梦，为欢几何？',
+        description: '简单生活，优雅前行。',
     },
 };
 

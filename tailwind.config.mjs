@@ -11,7 +11,6 @@ export default {
                 'Roboto',
                 'Segoe UI',
                 'Helvetica',
-                'Noto Sans SC',
                 'Microsoft Yahei',
                 'PingFang SC',
                 'sans-serif',
