@@ -17,9 +17,9 @@
 ## 目录
 
 1. [特性](#特征)
-2. [快速开始](#快速开始)
-3. [命令](#命令)
-4. [配置](#配置)
+2. [命令](#命令)
+3. [配置](#配置)
+4. [部署](#部署)
 
 ## 特征:
 
@@ -44,7 +44,7 @@
 
 | Command                    | Action                                            |
 | :------------------------- | :------------------------------------------------ |
-| `pnpm install`             | 安装以来                                          |
+| `pnpm install`             | 安装依赖                                          |
 | `pnpm run dev`             | 启动本地开发服务器： `localhost:4321`             |
 | `pnpm run build`           | 构建生产版本代码到 `./dist/`                      |
 | `pnpm run preview`         | 部署前预览本地构建的代码                          |
@@ -57,7 +57,9 @@
 
 ### Site Config, Social Media Links and Navbar Links
 
-您的网站配置、社交媒体链接和导航栏链接都放在`src/consts.ts`中。
+网站网址需要在文件 `astro.config.ts` 中 `site` 字段修改。
+
+网站配置、社交媒体链接和导航栏链接配置在文件 `src/consts.ts` 中。
 您可以通过该文件配置您的网站默认标题、描述、语言、个人资料、社交媒体链接和可见导航栏链接、代码主题等。
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -99,7 +101,7 @@ const blog = defineCollection({
 export type DirectusBlogPost = {
     id: string;
     title: string;
-    description?: string; // 可为空值
+    description?: string;
     date_created: string;
     date_updated?: string;
     tags?: string;
