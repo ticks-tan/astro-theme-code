@@ -1,27 +1,25 @@
 /**
- * directus loader
+ * pocketbase loader
+ * see https://github.com/pocketbase/pocketbase
  */
+
 import type { Loader } from 'astro/loaders';
 import { z } from 'astro:schema';
 import { createMarkdownProcessor } from '@astrojs/markdown-remark';
-import { createDirectus, rest, authentication, readItems } from '@directus/sdk';
+import PocketBase from 'pocketbase';
 import { removeDupsAndLowercase } from './util';
 
-export type DirectusBlogPost = {
+export type BlogPost = {
     id: string;
     title: string;
     description?: string;
     date_created: string;
-    date_updated?: string;
+    date_updated: string;
     tags?: string;
     katex: boolean;
     pin: boolean;
     draft: boolean;
     content: string;
-};
-
-type DirectusSchema = {
-    BlogPosts: DirectusBlogPost[];
 };
 
 export const postSchema = z.object({
@@ -39,51 +37,46 @@ export const postSchema = z.object({
     draft: z.boolean().default(true),
 });
 
-export const DirectusLoader = (conf: {
+export const PocketBaseLoader = (conf: {
     url: string;
-    token: string;
+    user: string;
+    pwd: string;
 }): Loader => {
-    const client = createDirectus<DirectusSchema>(conf.url)
-        .with(rest())
-        .with(authentication());
+    const pb = new PocketBase(conf.url);
+
     return {
-        name: 'astro_directus_blog_loader',
+        name: 'astro_pocketbase_blog_loader',
         load: async (ctx) => {
-            // 登录
-            await client.setToken(conf.token);
-            // 最后修改时间
+            ctx.logger.info(`conf: ${JSON.stringify(conf)}`);
+            const _authData = await pb
+                .collection('_superusers')
+                .authWithPassword(conf.user, conf.pwd);
+            if (!pb.authStore.isValid) {
+                ctx.logger.warn(
+                    `collection BlogPost auth with password error!`,
+                );
+                return;
+            }
+
             const last_modified =
                 ctx.meta.get('last-modified') ??
                 new Date(1900, 0, 0).toISOString();
             ctx.logger.info(`>>> last-modified: ${last_modified}`);
-            // 获取文章
+
             const posts = (
-                await client.request(
-                    readItems('BlogPosts', {
-                        filter: {
-                            _or: [
-                                {
-                                    date_created: {
-                                        _gt: last_modified,
-                                    } as any,
-                                },
-                                {
-                                    date_updated: {
-                                        _gt: last_modified,
-                                    } as any,
-                                },
-                            ],
-                        },
-                    }),
-                )
-            ).map((it) => ({
-                ...it,
-                date_created: new Date(it.date_created),
-                date_updated: it.date_updated
-                    ? new Date(it.date_updated)
-                    : new Date(it.date_created),
-                tags: it.tags ? it.tags.split(',') : [],
-            }));
+                await pb.collection('BlogPosts').getFullList<BlogPost>({
+                    filter: `date_updated >= "${last_modified}"`,
+                })
+            ).map((it) => {
+                return {
+                    ...it,
+                    date_created: new Date(it.date_created),
+                    date_updated: new Date(it.date_updated),
+                    tags: it.tags ? it.tags.split(',') : [],
+                };
+            });
+            pb.authStore.clear();
+
             const markdownProcessor = await createMarkdownProcessor(
                 ctx.config.markdown,
             );

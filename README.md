@@ -3,10 +3,7 @@
 <div align="center">
   <p align="center">
     <h1>Astro Theme Code</h1>
-    <p>
-      基于 <a href="https://github.com/kirontoo/astro-theme-cody/tree/v1.3.1">astro-theme-cody v1.3.1</a> 开发的一个简单的 Astro 博客主题，使用 <a href="https://github.com/directus/directus">directus</a> CMS 系统作为博客数据来源。
-    </p>
-  </p>
+    <p>一个简单的 Astro 博客主题。</p>
 </div>
 
 <figure style='display:flex;'>
@@ -66,6 +63,12 @@
 
 ## 部署
 
+目前支持以下数据源：
+
+- 本地
+- [Directus](https://github.com/directus/directus)
+- [PocketBase](https://github.com/pocketbase/pocketbase) (默认)
+
 ### 博客数据：本地
 
 1. 修改 `src/content/config.ts`
@@ -88,8 +91,46 @@ const blog = defineCollection({
 ```
 2. 本地运行：`pnpm run dev`
 
+### 博客数据：Pocketbase
 
-### 数据：Directus
+前提：
+1. 拥有 github 和 cloudflare 账号
+2. 自部署 pocketbase
+3. pocketbase 中新建 `BlogPosts` collection，字段如下：
+
+```ts
+export type DirectusBlogPost = {
+    id: string;
+    title: string;
+    description?: string;
+    date_created: string;
+    date_updated: string;
+    tags?: string;
+    katex: boolean;
+    pin: boolean;
+    draft: boolean;
+    content: string;
+};
+```
+
+如下图：
+
+![pocketbase schema](./docs/images/pocketbase_schema.png)
+
+Cloudflare 部署步骤：
+
+1. [fork](https://github.com/twiify/astro-theme-code/fork) 本仓库
+2. 转到 cloudflare pages，链接到 GitHub 账号并授权仓库访问权限
+3. 部署仓库，模板选择 `Astro` ，其余选项不变。
+4. 新增环境变量如下：
+
+    1. `POCKETBASE_URL`： pocketbase服务服务器地址（如：`http://<ip>:<port>` 或 `https://<domain>`）
+    2. `POCKETBASE_USER`：pocketbase 管理员账号
+    3. `POCKETBASE_PWD`: pocketbase管理员密码
+
+5. 执行构建，构建完成！
+
+### 博客数据：Directus
 
 前提：
 
@@ -115,12 +156,35 @@ export type DirectusBlogPost = {
 如下图：
 ![directus schema](./docs/images/directus_schema.png)
 
-步骤：
+CloudFlare 部署步骤：
 
-1. [fork](https://github.com/ticks-tan/astro-theme-code/fork) 本仓库
-2. 转到 cloudflare pages，链接到 GitHub 账号并授权仓库访问权限
-3. 部署仓库，模板选择 `Astro` ，其余选项不变。
-4. 新增环境变量如下：
+1. [fork](https://github.com/twiify/astro-theme-code/fork) 本仓库
+2. 修改 `src/content/config.ts`
+
+```ts
+- import { PocketBaseLoader, postSchema } from '~/lib/loader/PocketBaseLoader';
++ import { DirectusLoader, postSchema } from '~/lib/loader/DirectusLoader';
+
+// 博客集合
+const blog = defineCollection({
+      type: 'content_layer',
+-     loader: PocketBaseLoader({
+-         url: import.meta.env.POCKETBASE_URL,
+-         user: import.meta.env.POCKETBASE_USER,
+-         pwd: import.meta.env.POCKETBASE_PWD
+-     }),
+-      schema: postSchema,
++     loader: DirectusLoader({
++         url: import.meta.env.DIRECTUS_URL,
++         token: import.meta.env.DIRECTUS_TOKEN,
++     }),
++     schema: postSchema,
+});
+```
+
+3. 转到 cloudflare pages，链接到 GitHub 账号并授权仓库访问权限
+4. 部署仓库，模板选择 `Astro` ，其余选项不变。
+5. 新增环境变量如下：
 
     1. `DIRECTUS_URL`： directus 服务服务器地址（如：`http://<ip>:<port>` 或 `https://<domain>`）
     2. `DIRECTUS_TOKEN`：访问 Token ，以便构建时从 directus 获取数据

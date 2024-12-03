@@ -1,16 +1,17 @@
 import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
-import { DirectusLoader, directSchema } from '~/lib/loader/DirectusLoader';
+import { PocketBaseLoader, postSchema } from '~/lib/loader/PocketBaseLoader';
 import { projectSchema } from '~/lib/loader/Project';
 
 // 博客集合
 const blog = defineCollection({
     type: 'content_layer',
-    loader: DirectusLoader({
-        url: import.meta.env.DIRECTUS_URL,
-        token: import.meta.env.DIRECTUS_TOKEN,
+    loader: PocketBaseLoader({
+        url: import.meta.env.POCKETBASE_URL,
+        user: import.meta.env.POCKETBASE_USER,
+        pwd: import.meta.env.POCKETBASE_PWD,
     }),
-    schema: directSchema,
+    schema: postSchema,
 });
 
 // 项目集合
