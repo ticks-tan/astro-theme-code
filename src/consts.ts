@@ -41,7 +41,7 @@ export const socialLinks: Array<SocialLink> = [
     {
         icon: 'mdi:github',
         friendlyName: 'Github',
-        link: 'https://github.com/ticks-tan',
+        link: 'https://github.com/twiify',
     },
     {
         icon: 'mdi:email',
