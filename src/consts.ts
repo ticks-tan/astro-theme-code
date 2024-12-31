@@ -41,7 +41,7 @@ export const socialLinks: Array<SocialLink> = [
     {
         icon: 'mdi:github',
         friendlyName: 'Github',
-        link: 'https://github.com/twiify',
+        link: 'https://github.com/twiify/astro-theme-code',
     },
     {
         icon: 'mdi:email',
